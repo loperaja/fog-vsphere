@@ -29,7 +29,11 @@ module Fog
       end
       class Mock
         def list_rules(filters = {})
-          data[:rules].values.select { |r| r[:datacenter] == filters[:datacenter] && r[:cluster] == filters[:cluster] }
+          data[:rules].values.select do |rule|
+            filters.all? do |key, value|
+              value == rule[key]
+            end
+          end
         end
       end
     end
